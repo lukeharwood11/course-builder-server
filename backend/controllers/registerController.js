@@ -1,6 +1,6 @@
 const bcrypt = require("bcrypt");
 const debug = require("debug")("register");
-const { getAsyncConnection } = require("../controllers/databaseController");
+const { getAsyncConnection } = require("./databaseController");
 const { schema } = require("../models/users/users");
 const Error = require("../data/errors");
 const emailValidator = require('email-validator')

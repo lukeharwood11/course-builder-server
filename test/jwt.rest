@@ -1,0 +1,30 @@
+### Create a user in the database
+
+POST http://localhost:8080/api/create-account
+Content-Type: application/json
+
+{
+  "firstName" : "Tyler",
+  "lastName" : "Cernik",
+  "password" : "insecure",
+  "repeatPassword" : "insecure",
+  "type" : "student",
+  "email" : "cernikt@msoe.edu"
+}
+
+### Test sign in
+// expect that accessToken is returned in body
+
+POST http://localhost:8080/api/auth
+Content-Type: application/json
+
+{
+  "password" : "insecure",
+  "email" : "cernikt@msoe.edu"
+}
+
+### Test JWT against protected route
+
+GET http://localhost:8080/api/users
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImZpcnN0TmFtZSI6IlR5bGVyIiwibGFzdE5hbWUiOiJDZXJuaWsiLCJpZCI6NCwidHlwZSI6InN0dWRlbnQiLCJlbWFpbCI6ImNlcm5pa3RAbXNvZS5lZHUifSwiaWF0IjoxNjY2MTE5Mjg4LCJleHAiOjE2NjYxMjAxODh9.pbwgMvg4NiJBUlj5cTqBsOGeZifPw9meJn2HF3aN4ZE
