@@ -24,7 +24,22 @@ Content-Type: application/json
 }
 
 ### Test JWT against protected route
+// perform twice, once before and after jwt expires
+// expect success first, then failure the second time
 
 GET http://localhost:8080/api/users
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImZpcnN0TmFtZSI6IlR5bGVyIiwibGFzdE5hbWUiOiJDZXJuaWsiLCJpZCI6NCwidHlwZSI6InN0dWRlbnQiLCJlbWFpbCI6ImNlcm5pa3RAbXNvZS5lZHUifSwiaWF0IjoxNjY2MTE5Mjg4LCJleHAiOjE2NjYxMjAxODh9.pbwgMvg4NiJBUlj5cTqBsOGeZifPw9meJn2HF3aN4ZE
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImZpcnN0TmFtZSI6IlR5bGVyIiwibGFzdE5hbWUiOiJDZXJuaWsiLCJpZCI6NCwidHlwZSI6InN0dWRlbnQiLCJlbWFpbCI6ImNlcm5pa3RAbXNvZS5lZHUifSwiaWF0IjoxNjY2MTIxMDYyLCJleHAiOjE2NjYxMjEwODJ9.Y68Fi5cOgTQetOYY6ybto3MxSHnZyqItmvlN9Yenreo
+
+
+### Test JWT refresh
+// wait until token should expire, then send
+
+GET http://localhost:8080/api/refresh
+
+### Test JWT again against protected route
+// expect success
+
+GET http://localhost:8080/api/users
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImZpcnN0TmFtZSI6IlR5bGVyIiwibGFzdE5hbWUiOiJDZXJuaWsiLCJpZCI6NCwidHlwZSI6InN0dWRlbnQiLCJlbWFpbCI6ImNlcm5pa3RAbXNvZS5lZHUifSwiaWF0IjoxNjY2MTIxMDYyLCJleHAiOjE2NjYxMjEwODJ9.Y68Fi5cOgTQetOYY6ybto3MxSHnZyqItmvlN9Yenreo

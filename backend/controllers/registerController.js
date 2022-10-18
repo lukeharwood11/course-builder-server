@@ -32,11 +32,7 @@ const handleNewUser = async (req, res) => {
             const vars = [firstName, lastName, email, hashedPwd, type];
             [results, fields] = await connection.execute(query, vars)
             debug(results)
-            return res
-                .status(201)
-                .json({
-                    success: `New user ${firstName} ${lastName} created!`,
-                });
+            return res.sendStatus(201)
         } finally {
             connection.end()
         }

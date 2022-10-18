@@ -19,6 +19,7 @@ app.use(express.json())
 
 // unprotected routes
 app.use('/api/create-account', require('./routes/createAccount'))
+app.use('/api/refresh', require('./routes/refresh'))
 app.use('/api/auth', require('./routes/auth'))
 
 // protected routes

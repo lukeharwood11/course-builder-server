@@ -7,22 +7,24 @@ require('dotenv').config()
 
 const handleRefreshToken = async (req, res) => {
     // check to see if the request contains a cookie
-    const cookie = req.cookie
-    if (!cookie?.jwt) return res.sendStatus(401)
+    const cookies = req.cookies
+    debug(cookies)
+    if (!cookies?.jwt) return res.sendStatus(401)
     try {
         // start connection to db
         const connection = await getAsyncConnection()
         try {
             // check to see if the refresh token is in the database with the correct user
             let query = 'SELECT * from activeusers where refreshtoken = ?'
-            let [rows, fields] = await connection.execute(query, [cookie.jwt])
+            let [rows, fields] = await connection.execute(query, [cookies.jwt])
             if (rows.length === 0) throw new Error.HttpError("Refresh token does not exist in the database.", 403)
             const userRow = rows[0]
             // verify the jwt and verify that the ids of the found user matches
-            jwt.verify(cookie.jwt, process.env.REFRESH_TOKEN_SECRET, (err, decoded) => {
+            jwt.verify(cookies.jwt, process.env.REFRESH_TOKEN_SECRET, (err, decoded) => {
                 if (err || decoded.user.id !== userRow.userId) throw new Error.HttpError(err.message, 403)
-                const accessToken = jwt.sign(decoded, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '15m' })
-                res.json( { accessToken })
+                const { user } = decoded
+                const accessToken = jwt.sign({ user }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '20s' })
+                res.status(200).json( { accessToken })
             })
         } finally {
             // close the connection when we're done with it
@@ -35,4 +37,4 @@ const handleRefreshToken = async (req, res) => {
     }
 }
 
-module.exports = handleRefreshToken
+module.exports = { handleRefreshToken }
