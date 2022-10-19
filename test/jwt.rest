@@ -4,12 +4,12 @@ POST http://localhost:8080/api/create-account
 Content-Type: application/json
 
 {
-  "firstName" : "Tyler",
-  "lastName" : "Cernik",
-  "password" : "insecure",
-  "repeatPassword" : "insecure",
+  "firstName" : "Luke",
+  "lastName" : "Harwood",
+  "password" : "insecure-Password1!",
+  "repeatPassword" : "insecure-Password1!",
   "type" : "student",
-  "email" : "cernikt@msoe.edu"
+  "email" : "harwoodl@msoe.edu"
 }
 
 ### Test sign in
@@ -19,8 +19,8 @@ POST http://localhost:8080/api/auth
 Content-Type: application/json
 
 {
-  "password" : "insecure",
-  "email" : "cernikt@msoe.edu"
+  "password" : "insecure-Password1!",
+  "email" : "harwoodl@msoe.edu"
 }
 
 ### Test JWT against protected route
@@ -29,7 +29,7 @@ Content-Type: application/json
 
 GET http://localhost:8080/api/users
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImZpcnN0TmFtZSI6IlR5bGVyIiwibGFzdE5hbWUiOiJDZXJuaWsiLCJpZCI6NCwidHlwZSI6InN0dWRlbnQiLCJlbWFpbCI6ImNlcm5pa3RAbXNvZS5lZHUifSwiaWF0IjoxNjY2MTIxMDYyLCJleHAiOjE2NjYxMjEwODJ9.Y68Fi5cOgTQetOYY6ybto3MxSHnZyqItmvlN9Yenreo
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImZpcnN0TmFtZSI6Ikx1a2UiLCJsYXN0TmFtZSI6Ikhhcndvb2QiLCJpZCI6MSwidHlwZSI6InN0dWRlbnQiLCJlbWFpbCI6Imhhcndvb2RsQG1zb2UuZWR1In0sImlhdCI6MTY2NjEyOTU5MCwiZXhwIjoxNjY2MTI5NjEwfQ.WT5YX6aASoWgWwKXN3Rnz8aLqtbUcPTaXRjgB0mzG38
 
 
 ### Test JWT refresh
@@ -42,4 +42,10 @@ GET http://localhost:8080/api/refresh
 
 GET http://localhost:8080/api/users
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImZpcnN0TmFtZSI6IlR5bGVyIiwibGFzdE5hbWUiOiJDZXJuaWsiLCJpZCI6NCwidHlwZSI6InN0dWRlbnQiLCJlbWFpbCI6ImNlcm5pa3RAbXNvZS5lZHUifSwiaWF0IjoxNjY2MTIxMDYyLCJleHAiOjE2NjYxMjEwODJ9.Y68Fi5cOgTQetOYY6ybto3MxSHnZyqItmvlN9Yenreo
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImZpcnN0TmFtZSI6Ikx1a2UiLCJsYXN0TmFtZSI6Ikhhcndvb2QiLCJpZCI6MSwidHlwZSI6InN0dWRlbnQiLCJlbWFpbCI6Imhhcndvb2RsQG1zb2UuZWR1In0sImlhdCI6MTY2NjEyOTYwMiwiZXhwIjoxNjY2MTI5NjIyfQ.6osmAWjzVbxfyb5D3MAQTFZP_LhHEduQPMkpTgBE6uA
+
+
+### Test Logout
+// After running test refresh, which should no longer work
+
+GET http://localhost:8080/api/logout

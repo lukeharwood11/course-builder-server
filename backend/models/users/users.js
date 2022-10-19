@@ -5,6 +5,9 @@ const userType = {
     STUDENT: 'student'
 }
 
+// must be 8 characters long - can use special characters
+const passwordRegex = /^[a-zA-Z0-9!@#*$%^&.,';()/\\-]{8,}$/
+
 const schema = Joi.object({
     firstName: Joi.string()
         .required(),
@@ -14,7 +17,8 @@ const schema = Joi.object({
 
     password: Joi.string()
         // minimum 8 characters one required number
-        .alphanum().required(),
+        .pattern(passwordRegex)
+        .required(),
 
     repeatPassword: Joi.ref('password'),
 
