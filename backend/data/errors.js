@@ -1,7 +1,7 @@
 
 class ServerError extends Error {
     constructor(message) {
-      super(message); // (1)
+      super(message); 
       this.name = "ServerError";
       this.code = 500
     }
@@ -17,7 +17,7 @@ class DatabaseError extends Error {
 
 class HttpError extends Error {
     constructor(message, code) {
-      super(message); // (1)
+      super(message); 
       this.name = "ServerError";
       this.code = code
     }

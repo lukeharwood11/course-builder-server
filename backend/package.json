@@ -12,6 +12,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "code-stats": "^0.3.1",
     "nodemon": "^2.0.20"
   },
   "dependencies": {
