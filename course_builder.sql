@@ -1,22 +1,22 @@
-create database course_builder;
+CREATE DATABASE course_builder;
 use course_builder;
-drop table if exists users;
-drop table if exists activeUsers;
+DROP TABLE if EXISTS users;
+DROP TABLE if EXISTS activeUsers;
 -- user table for query
-create table users (
+CREATE TABLE users (
     firstName varchar(50),
     lastName varchar(50),
     password varchar(200),
     type varchar(20), -- teacher/student
-    email varchar(50) unique key,
-    id int auto_increment primary key
+    email varchar(50) UNIQUE KEY,
+    id int auto_increment PRIMARY KEY
 );
-create table activeUsers (
-    userId int primary key,
+CREATE TABLE activeUsers (
+    userId int PRIMARY KEY,
     refreshToken varchar(500)
 );
 -- select statements for convenience
-select *
-from users;
-select *
-from activeUsers;
+SELECT *
+FROM users;
+SELECT *
+FROM activeUsers;
