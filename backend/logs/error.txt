@@ -1,0 +1,2 @@
+Thu Oct 20 2022 22:35:25 - Error: Not allowed by CORS
+Thu Oct 20 2022 22:37:37 - Error: Not allowed by CORS

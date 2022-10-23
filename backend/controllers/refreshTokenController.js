@@ -7,6 +7,7 @@ require('dotenv').config()
 const handleRefreshToken = async (req, res) => {
     // check to see if the request contains a cookie
     const cookies = req.cookies
+    debug("Attempting to refresh the token!")
     debug(cookies)
     if (!cookies?.jwt) return res.sendStatus(401)
     try {
@@ -22,8 +23,9 @@ const handleRefreshToken = async (req, res) => {
             jwt.verify(cookies.jwt, process.env.REFRESH_TOKEN_SECRET, (err, decoded) => {
                 if (err || decoded.user.id !== userRow.userId) throw new Error.HttpError(err.message, 403)
                 const { user } = decoded
-                const accessToken = jwt.sign({ user }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '20s' })
-                res.status(200).json( { accessToken })
+                const accessToken = jwt.sign({ user }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '15m' })
+                debug("Success! Access token returned.")
+                res.status(200).json( { user, accessToken })
             })
         } finally {
             // close the connection when we're done with it

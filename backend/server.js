@@ -28,6 +28,7 @@ app.use('/api/logout', require('./routes/logout'))
 // protected routes
 app.use(verifyJwt)
 app.use('/api/users', require('./routes/users'))
+app.use('/api/courses', require('./routes/courses'))
 app.use(errorHandler)
 
 PORT = process.env.PORT | 8080

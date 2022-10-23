@@ -4,12 +4,12 @@ POST http://localhost:8080/api/create-account
 Content-Type: application/json
 
 {
-  "firstName" : "Luke",
-  "lastName" : "Harwood",
+  "firstName" : "jwt",
+  "lastName" : "test",
   "password" : "insecure-Password1!",
   "repeatPassword" : "insecure-Password1!",
   "type" : "student",
-  "email" : "harwoodl@msoe.edu"
+  "email" : "testEmail@msoe.edu"
 }
 
 ### Test sign in
@@ -20,7 +20,7 @@ Content-Type: application/json
 
 {
   "password" : "insecure-Password1!",
-  "email" : "harwoodl@msoe.edu"
+  "email" : "testEmail@msoe.edu"
 }
 
 ### Test JWT against protected route
@@ -29,7 +29,7 @@ Content-Type: application/json
 
 GET http://localhost:8080/api/users
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImZpcnN0TmFtZSI6Ikx1a2UiLCJsYXN0TmFtZSI6Ikhhcndvb2QiLCJpZCI6MSwidHlwZSI6InN0dWRlbnQiLCJlbWFpbCI6Imhhcndvb2RsQG1zb2UuZWR1In0sImlhdCI6MTY2NjEyOTU5MCwiZXhwIjoxNjY2MTI5NjEwfQ.WT5YX6aASoWgWwKXN3Rnz8aLqtbUcPTaXRjgB0mzG38
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImZpcnN0TmFtZSI6Imp3dCIsImxhc3ROYW1lIjoidGVzdCIsImlkIjo4LCJ0eXBlIjoic3R1ZGVudCIsImVtYWlsIjoidGVzdEVtYWlsQG1zb2UuZWR1In0sImlhdCI6MTY2NjM4NjkyNiwiZXhwIjoxNjY2Mzg3ODI2fQ.TgWPsc5jytxzbQP_rNI5rC8BhbZRzLdv_hmDXcEDq2o
 
 
 ### Test JWT refresh
@@ -42,7 +42,7 @@ GET http://localhost:8080/api/refresh
 
 GET http://localhost:8080/api/users
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImZpcnN0TmFtZSI6Ikx1a2UiLCJsYXN0TmFtZSI6Ikhhcndvb2QiLCJpZCI6MSwidHlwZSI6InN0dWRlbnQiLCJlbWFpbCI6Imhhcndvb2RsQG1zb2UuZWR1In0sImlhdCI6MTY2NjEyOTYwMiwiZXhwIjoxNjY2MTI5NjIyfQ.6osmAWjzVbxfyb5D3MAQTFZP_LhHEduQPMkpTgBE6uA
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImZpcnN0TmFtZSI6Imp3dCIsImxhc3ROYW1lIjoidGVzdCIsImlkIjo4LCJ0eXBlIjoic3R1ZGVudCIsImVtYWlsIjoidGVzdEVtYWlsQG1zb2UuZWR1In0sImlhdCI6MTY2NjM4Njk1OSwiZXhwIjoxNjY2Mzg3ODU5fQ.XqruC3HUjdDr0kXRjf_04AiDrt5hpU9OZv_3Ou2Et5U
 
 
 ### Test Logout
