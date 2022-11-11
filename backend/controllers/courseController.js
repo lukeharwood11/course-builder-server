@@ -8,7 +8,7 @@ const handleGetCourses = (req, res) => {
     debug("Success! Sending json data!")
     // TODO: access the database for all courses under that id
     return res.json({
-        courses: [{ name: "Computer Science 101", code: "CS-101" }, { name: "testName", code: "CS-URMOM"}],
+        courses: [{ name: "Computer Science 101", code: "CS-101" }, { name: "Test Course", code: "GS-1023"}],
     });
 };
 
