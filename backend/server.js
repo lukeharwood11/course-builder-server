@@ -9,6 +9,7 @@ const cookieParser = require('cookie-parser')
 const corsOptions = require('./config/corsConfigurations')
 const cors = require('cors')
 const errorHandler = require('./middleware/errorHandler')
+require('dotenv').config()
 
 const app = express()
 // set middleware
@@ -27,7 +28,7 @@ app.use('/api/logout', require('./routes/logout'))
 
 // protected routes
 app.use(verifyJwt)
-app.use('/api/users', require('./routes/users'))
+app.use('/api/account', require('./routes/account'))
 app.use('/api/courses', require('./routes/courses'))
 app.use(errorHandler)
 

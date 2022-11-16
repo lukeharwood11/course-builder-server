@@ -1,6 +1,6 @@
 const bcrypt = require("bcrypt");
 const debug = require("debug")("register");
-const { getAsyncConnection } = require("./databaseController");
+const { poolConnection } = require("./databaseController");
 const { schema } = require("../models/account");
 const Error = require("../data/errors");
 const emailValidator = require("email-validator");
@@ -16,29 +16,24 @@ const handleNewAccount = async (req, res) => {
     if (!emailValidator.validate(value.email))
         return res.status(400).json({ message: "Invalid email provided." });
     try {
-        const connection = await getAsyncConnection();
-
-        try {
-            // check to see if the email already exists in the database
-            let query = "SELECT * FROM users WHERE email = ?;";
-            let [results, fields] = await connection.execute(query, [
-                value.email,
-            ]);
-            debug(results);
-            if (results.length !== 0) throw new Error.HttpError("Email already exists.", 409);
-            // attempt to hash the password
-            const hashedPassword = await bcrypt.hash(value.password, 10);
-            query =
-                "INSERT INTO users (firstName, lastName, email, password, type, id) VALUES (?, ?, ?, ?, ?, UUID());";
-            const { firstName, lastName, email, type } = value;
-            const vars = [firstName, lastName, email, hashedPassword, type];
-            [results, fields] = await connection.execute(query, vars);
-            debug(results);
-            return res.sendStatus(201);
-        } finally {
-            connection.end();
-        }
+        // check to see if the email already exists in the database
+        let query = "SELECT * FROM account WHERE email = ?;";
+        let [results, fields] = await poolConnection().execute(query, [
+            value.email,
+        ]);
+        debug(results);
+        if (results.length !== 0) throw new Error.HttpError("Email already exists.", 409);
+        // attempt to hash the password
+        const hashedPassword = await bcrypt.hash(value.password, 10);
+        query =
+            "INSERT INTO account (first_name, last_name, email, password, type, id) VALUES (?, ?, ?, ?, ?, ?);";
+        const { firstName, lastName, email, type } = value;
+        const vars = [firstName, lastName, email, hashedPassword, type, uuid()];
+        [results, fields] = await poolConnection().execute(query, vars);
+        debug(results);
+        return res.sendStatus(201);
     } catch (err) {
+        console.log(err)
         if (err instanceof Error.HttpError)
             return res.status(err.code).json({ message: err.message });
         return res.status(500).json({ message: err.message });

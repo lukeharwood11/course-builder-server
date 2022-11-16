@@ -17,9 +17,17 @@ CREATE SCHEMA IF NOT EXISTS `CourseWright` DEFAULT CHARACTER SET utf8 ;
 -- -----------------------------------------------------
 USE `CourseWright` ;
 
+DROP TABLE IF EXISTS CourseWright.active_user;
+
+CREATE TABLE IF NOT EXISTS CourseWright.active_user (
+    userId varchar(36) PRIMARY KEY,
+    refreshToken varchar(500)
+);
+
 -- -----------------------------------------------------
 -- Table `CourseWright`.`file`
 -- -----------------------------------------------------
+
 DROP TABLE IF EXISTS `CourseWright`.`file` ;
 
 CREATE TABLE IF NOT EXISTS `CourseWright`.`file` (
@@ -105,10 +113,10 @@ CREATE TABLE IF NOT EXISTS `CourseWright`.`account` (
   `type` VARCHAR(45) NOT NULL,
   `first_name` VARCHAR(75) NOT NULL,
   `last_name` VARCHAR(75) NOT NULL,
-  `title` VARCHAR(30) NULL,
-  `home_page_id` VARCHAR(36) NOT NULL,
-  `photo_id` VARCHAR(36) NOT NULL,
-  PRIMARY KEY (`id`, `email`, `home_page_id`, `photo_id`),
+  `title` VARCHAR(30) DEFAULT NULL,
+  `home_page_id` VARCHAR(36),
+  `photo_id` VARCHAR(36),
+  PRIMARY KEY (`id`, `email`),
   UNIQUE INDEX `account_id_UNIQUE` (`id` ASC) VISIBLE,
   UNIQUE INDEX `email_UNIQUE` (`email` ASC) VISIBLE,
   INDEX `photo_idx` (`photo_id` ASC) VISIBLE,
