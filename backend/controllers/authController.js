@@ -22,7 +22,7 @@ const handleLogin = async (req, res) => {
         if (match) {
             debug("Passwords Match!")
             const user = { firstName: userRow.first_name, lastName: userRow.last_name, id: userRow.id, type: userRow.type, email: userRow.email }
-            const accessToken = jwt.sign({ user }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '15m' })
+            const accessToken = jwt.sign({ user }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '30m' })
             const refreshToken = jwt.sign({ user }, process.env.REFRESH_TOKEN_SECRET, { expiresIn: '1d' })
 
             // add the refreshtoken to the database

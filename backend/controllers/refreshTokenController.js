@@ -20,7 +20,8 @@ const handleRefreshToken = async (req, res) => {
         jwt.verify(cookies.jwt, process.env.REFRESH_TOKEN_SECRET, (err, decoded) => {
             if (err || decoded.user.id !== userRow.userId) throw new Error.HttpError(err.message, 403)
             const { user } = decoded
-            const accessToken = jwt.sign({ user }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '15m' })
+            const accessToken = jwt.sign({ user }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '30m' })
+            console.log(accessToken)
             debug("Success! Access token returned.")
             res.status(200).json( { user, accessToken })
         })

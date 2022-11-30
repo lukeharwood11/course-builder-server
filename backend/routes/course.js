@@ -6,5 +6,7 @@ router.route('/:course')
     .get(courseController.handleGetSingleCourse)
     .put(courseController.handleUpdateCourse)
 
+router.route('/publish/:course')
+    .put(courseController.handlePublishCourse)
 
 module.exports = router

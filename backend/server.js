@@ -31,6 +31,7 @@ app.use(verifyJwt)
 app.use('/api/account', require('./routes/account'))
 app.use('/api/courses', require('./routes/courses'))
 app.use('/api/course', require('./routes/course'))
+app.use('/api/search', require('./routes/search'))
 app.use(errorHandler)
 
 PORT = process.env.PORT | 8080
