@@ -45,18 +45,45 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `CourseWright`.`course`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `CourseWright`.`course` ;
+DROP TABLE IF EXISTS CourseWright.course ;
 
-CREATE TABLE IF NOT EXISTS `CourseWright`.`course` (
+CREATE TABLE IF NOT EXISTS CourseWright.course (
   `id` VARCHAR(36) NOT NULL,
   `name` VARCHAR(150) NULL,
-  `course_code` VARCHAR(12) NULL,
-  `affiliation` TINYINT NULL DEFAULT 0,
-  `subject` VARCHAR(50) BINARY NOT NULL,
+  `course_code` VARCHAR(12) NOT NULL,
+  `affiliation` VARCHAR(36) NULL,
+  `active` BOOLEAN NOT NULL DEFAULT FALSE,
+  `subject` VARCHAR(50) NOT NULL,
   `license` VARCHAR(75) NULL,
   `visibility` VARCHAR(10) NOT NULL DEFAULT 'private',
   `date_created` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  `last_modified` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
+  FOREIGN KEY (affiliation) REFERENCES organization (id),
+  UNIQUE INDEX `course_id_UNIQUE` (`id` ASC) VISIBLE)
+ENGINE = InnoDB;
+
+-- -----------------------------------------------------
+-- Table `CourseWright`.`course`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS CourseWright.course ;
+
+CREATE TABLE IF NOT EXISTS CourseWright.course (
+    creator VARCHAR(36) NOT NULL,
+    published BOOLEAN NOT NULL DEFAULT FALSE,
+  `id` VARCHAR(36) NOT NULL,
+  `name` VARCHAR(150) NULL,
+  `course_code` VARCHAR(12) NOT NULL,
+  `affiliation` VARCHAR(36) NULL,
+  `active` BOOLEAN NOT NULL DEFAULT FALSE,
+  `subject` VARCHAR(50) NOT NULL,
+  `license` VARCHAR(75) NULL,
+  `visibility` VARCHAR(10) NOT NULL DEFAULT 'private',
+  `date_created` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  `last_modified` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (creator) REFERENCES account (id),
+  FOREIGN KEY (affiliation) REFERENCES organization (id),
   UNIQUE INDEX `course_id_UNIQUE` (`id` ASC) VISIBLE)
 ENGINE = InnoDB;
 
@@ -182,12 +209,13 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `CourseWright`.`private_course`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `CourseWright`.`private_course` ;
+DROP TABLE IF EXISTS CourseWright.private_course ;
 
-CREATE TABLE IF NOT EXISTS `CourseWright`.`private_course` (
+CREATE TABLE IF NOT EXISTS CourseWright.private_course (
   `id` VARCHAR(36) NOT NULL,
   `color` VARCHAR(45) NULL,
   `course_id` VARCHAR(36) NOT NULL,
+  `active` BOOLEAN NOT NULL DEFAULT FALSE,
   PRIMARY KEY (`id`, `course_id`),
   INDEX `borrows_course_idx` (`course_id` ASC) VISIBLE,
   CONSTRAINT `borrows_course`
@@ -476,7 +504,8 @@ DROP TABLE IF EXISTS `CourseWright`.`enrollment` ;
 CREATE TABLE IF NOT EXISTS `CourseWright`.`enrollment` (
   `account_id` VARCHAR(36) NOT NULL,
   `private_course_id` VARCHAR(36) NOT NULL,
-  `role` VARCHAR(45) NOT NULL,
+  `role` INT NOT NULL,
+  status VARCHAR(36) NOT NULL,
   PRIMARY KEY (`account_id`, `private_course_id`),
   INDEX `account_in_course` (`private_course_id` ASC) VISIBLE,
   INDEX `course_has_account` (`account_id` ASC) VISIBLE,
@@ -500,10 +529,19 @@ DROP TABLE IF EXISTS `CourseWright`.`course_tag` ;
 CREATE TABLE IF NOT EXISTS `CourseWright`.`course_tag` (
   `course_id` VARCHAR(36) NOT NULL,
   `tag_name` VARCHAR(75) NOT NULL,
-  PRIMARY KEY (`course_id`),
   CONSTRAINT `tag_in_course`
     FOREIGN KEY (`course_id`)
     REFERENCES `CourseWright`.`course` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
+
+DROP TABLE IF EXISTS CourseWright.course_editor;
+
+CREATE TABLE IF NOT EXISTS CourseWright.course_editor (
+    course_id VARCHAR(36) NOT NULL,
+    account_id VARCHAR(36) NOT NULL,
+    `role` INT NOT NULL,
+    FOREIGN KEY (course_id) REFERENCES course (id),
+    FOREIGN KEY (account_id) REFERENCES account (id)
+) ENGINE = InnoDB;

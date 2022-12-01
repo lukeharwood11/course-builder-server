@@ -3895,3 +3895,13 @@ Thu Dec 01 2022 0:2:39 - OPTIONS 	 http://localhost:3000 	 /api/courses
 Thu Dec 01 2022 0:2:39 - GET 	 http://localhost:3000 	 /api/courses
 Thu Dec 01 2022 0:2:39 - GET 	 http://localhost:3000 	 /api/refresh
 Thu Dec 01 2022 0:2:39 - GET 	 http://localhost:3000 	 /api/courses
+Thu Dec 01 2022 0:5:23 - OPTIONS 	 http://localhost:3000 	 /api/courses
+Thu Dec 01 2022 0:5:23 - GET 	 http://localhost:3000 	 /api/courses
+Thu Dec 01 2022 0:5:23 - GET 	 http://localhost:3000 	 /api/refresh
+Thu Dec 01 2022 0:5:23 - GET 	 http://localhost:3000 	 /api/courses
+Thu Dec 01 2022 0:5:52 - OPTIONS 	 http://localhost:3000 	 /api/search?text=Course
+Thu Dec 01 2022 0:5:52 - GET 	 http://localhost:3000 	 /api/search?text=Course
+Thu Dec 01 2022 0:5:56 - OPTIONS 	 http://localhost:3000 	 /api/search?text=Changed2
+Thu Dec 01 2022 0:5:56 - GET 	 http://localhost:3000 	 /api/search?text=Changed2
+Thu Dec 01 2022 0:6:32 - OPTIONS 	 http://localhost:3000 	 /api/course/a7a9a40e-1583-47df-aead-68807f80cd29
+Thu Dec 01 2022 0:6:32 - PUT 	 http://localhost:3000 	 /api/course/a7a9a40e-1583-47df-aead-68807f80cd29
