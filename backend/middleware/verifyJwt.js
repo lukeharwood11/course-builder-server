@@ -29,7 +29,6 @@ const verifyJwt = (req, res, next) => {
     debug(token)
     jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => {
         if (err) {
-            console.log(err)
             return res.sendStatus(403)
         }
         debug(decoded.user)
