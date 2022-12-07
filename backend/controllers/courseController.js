@@ -70,7 +70,7 @@ const handleCreateCourse = async (req, res) => {
     }
 
     const insertIntoCourse = "INSERT INTO course (id, creator, `name`, `course_code`, `subject`) VALUES (?, ?, ?, ?, ?);"
-    const insertIntoCourseEditors = "INSERT INTO course_editor (course_id, account_id, `role`) VALUES (?, ?, 1010);"
+    const insertIntoCourseEditors = "INSERT INTO course_editor (course_id, account_id, `role`) VALUES (?, ?, 10);"
     const accountId = req.user.id
     try {
         const courseId = uuid()
@@ -97,7 +97,7 @@ const handleUpdateCourse = async (req, res) => {
     // validate the request
     const { error, value } = schema.validate(req.body)
     if (error) return res.status(400).json({ message: error.message });
-    const userHasPermissionQuery = "SELECT * FROM course_editor ce, course c, `account` a WHERE a.id = ? and c.id = ? and a.id = ce.account_id and c.id = ce.course_id and ce.role = 1010 or ce.role = 1011;"
+    const userHasPermissionQuery = "SELECT * FROM course_editor ce, course c, `account` a WHERE a.id = ? and c.id = ? and a.id = ce.account_id and c.id = ce.course_id and ce.role = 10 or ce.role = 11;"
     const updateCourseQuery = "UPDATE course SET name = ?, course_code = ?, subject = ? WHERE id = ?;"
     const deleteCourseTagsForUpdate = "DELETE FROM course_tag WHERE course_id = ?;"
     const accountId = req.user.id
@@ -131,7 +131,7 @@ const handlePublishCourse = async (req, res) => {
     const { publish } = req.body
     if (publish === undefined) return res.status(400).json({ message: "Missing publish element." })
 
-    const userHasPermissionQuery = "SELECT * FROM course_editor ce, course c, `account` a WHERE a.id = ? and c.id = ? and a.id = ce.account_id and c.id = ce.course_id and ce.role = 1010 or ce.role = 1011;"
+    const userHasPermissionQuery = "SELECT * FROM course_editor ce, course c, `account` a WHERE a.id = ? and c.id = ? and a.id = ce.account_id and c.id = ce.course_id and ce.role = 10 or ce.role = 11;"
     const updateQuery = "UPDATE course SET published = ? where course.id = ?;"
 
     try {
@@ -147,4 +147,4 @@ const handlePublishCourse = async (req, res) => {
     }
 }
 
-module.exports = { handlePublishCourse, handleGetCourses, handleCreateCourse, handleGetSingleCourse, handleUpdateCourse }
+module.exports = { handlePublishCourse, handleGetCourses, handleCreateCourse, handleGetSingleCourse, handleUpdateCourse, cleanTags }

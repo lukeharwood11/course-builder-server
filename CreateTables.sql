@@ -130,11 +130,11 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `CourseWright`.`account`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `CourseWright`.`account` ;
+DROP TABLE IF EXISTS `CourseWright`.account ;
 
-CREATE TABLE IF NOT EXISTS `CourseWright`.`account` (
+CREATE TABLE IF NOT EXISTS `CourseWright`.account (
   `email` VARCHAR(255) NOT NULL,
-  `password` VARCHAR(200) NOT NULL,
+  `password` VARCHAR(200) DEFAULT NULL,
   `date_created` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   `id` VARCHAR(36) NOT NULL,
   `type` VARCHAR(45) NOT NULL,
@@ -143,6 +143,7 @@ CREATE TABLE IF NOT EXISTS `CourseWright`.`account` (
   `title` VARCHAR(30) DEFAULT NULL,
   `home_page_id` VARCHAR(36),
   `photo_id` VARCHAR(36),
+  temp_account BOOLEAN DEFAULT FALSE,
   PRIMARY KEY (`id`, `email`),
   UNIQUE INDEX `account_id_UNIQUE` (`id` ASC) VISIBLE,
   UNIQUE INDEX `email_UNIQUE` (`email` ASC) VISIBLE,
@@ -216,6 +217,7 @@ CREATE TABLE IF NOT EXISTS CourseWright.private_course (
   `color` VARCHAR(45) NULL,
   `course_id` VARCHAR(36) NOT NULL,
   `active` BOOLEAN NOT NULL DEFAULT FALSE,
+  enroll_using_link BOOLEAN NOT NULL DEFAULT FALSE,
   PRIMARY KEY (`id`, `course_id`),
   INDEX `borrows_course_idx` (`course_id` ASC) VISIBLE,
   CONSTRAINT `borrows_course`
@@ -505,7 +507,7 @@ CREATE TABLE IF NOT EXISTS `CourseWright`.`enrollment` (
   `account_id` VARCHAR(36) NOT NULL,
   `private_course_id` VARCHAR(36) NOT NULL,
   `role` INT NOT NULL,
-  status VARCHAR(36) NOT NULL,
+  `status` VARCHAR(36) NOT NULL,
   PRIMARY KEY (`account_id`, `private_course_id`),
   INDEX `account_in_course` (`private_course_id` ASC) VISIBLE,
   INDEX `course_has_account` (`account_id` ASC) VISIBLE,
@@ -545,3 +547,16 @@ CREATE TABLE IF NOT EXISTS CourseWright.course_editor (
     FOREIGN KEY (course_id) REFERENCES course (id),
     FOREIGN KEY (account_id) REFERENCES account (id)
 ) ENGINE = InnoDB;
+
+DROP TABLE IF EXISTS CourseWright.temporary_account_claim;
+
+CREATE TABLE IF NOT EXISTS CourseWright.course_editor (
+    temporary_account_id VARCHAR(36) NOT NULL,
+    `status` VARCHAR(36) NOT NULL DEFAULT 'unclaimed',
+    claimed_account_id VARCHAR(36) NOT NULL,
+    verification_account_id VARCHAR(36) DEFAULT NULL,
+    FOREIGN KEY (temporary_account_id) REFERENCES account (id),
+    FOREIGN KEY (claimed_account_id) REFERENCES account (id),
+    FOREIGN KEY (verification_account_id) REFERENCES account (id)
+) ENGINE = InnoDB;
+

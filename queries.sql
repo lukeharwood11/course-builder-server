@@ -187,9 +187,10 @@ SELECT
     c.name as name,
     c.affiliation as affiliation,
     c.id as id,
+    c.license as license,
     c.visibility as visibility,
     JSON_ARRAYAGG(ct.tag_name) as tags
-FROM course c
+FROM course c, enrollment e
 INNER JOIN account a on c.creator = a.id
 LEFT JOIN
     course_tag ct on c.id = ct.course_id
@@ -198,3 +199,55 @@ WHERE
     c.published = true and
     (c.visibility = 'public' or a.id = ?)
 GROUP BY c.id;
+
+
+-- enroll a teacher in the course as a creator
+
+-- first create a section in the course
+INSERT INTO
+    private_course (id, course_id, color)
+VALUES
+    (?, ?, 'none');
+
+INSERT INTO enrollment
+    (account_id, private_course_id, `role`, `status`)
+VALUES
+    (?, ?, 200, 'accepted');
+
+
+-- enroll a teacher in the course, with admin access
+INSERT INTO enrollment
+    (account_id, private_course_id, `role`, `status`)
+VALUES
+    (?, ?, 201, 'pending');
+
+-- enroll a teacher in the course
+INSERT INTO enrollment
+    (account_id, private_course_id, `role`, `status`)
+VALUES
+    (?, ?, 202, 'pending');
+
+-- enroll a student in the course
+INSERT INTO enrollment
+    (account_id, private_course_id, `role`, `status`)
+VALUES
+    (?, ?, 202, 'pending');
+
+
+-- accept a role in a section
+UPDATE enrollment SET `role` = 'accepted'
+WHERE account_id = ? and private_course_id = ?;
+
+
+SELECT * FROM course where id = ? and published = true;
+
+-- check to see if a user has permissions to add users to the course
+SELECT * FROM enrollment where private_course_id = ? and account_id = ? and (role = 20 or role = 21);
+-- link check
+SELECT * FROM private_course where id = ? and enroll_using_link = true;
+
+SELECT email, id, type, first_name as firstName, last_name as LastName FROM account where email LIKE ?;
+
+INSERT INTO account (email, id, first_name, last_name, type, temp_account) VALUES (?, ?, ?, ?, 'student', TRUE);
+
+-- check to see if an account is in the  cf

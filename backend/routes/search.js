@@ -6,4 +6,7 @@ const searchController = require('../controllers/searchController')
 router.route('/')
     .get(searchController.handleQuery)
 
+router.route('/users')
+    .get(searchController.handleSearchUsers)
+
 module.exports = router

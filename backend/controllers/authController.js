@@ -18,6 +18,7 @@ const handleLogin = async (req, res) => {
         if (rows.length === 0) throw new Error.HttpError("User does not exist within the database.", 401)
         const userRow = rows[0]
         // verify that the passwords match
+        
         const match = await bcrypt.compare(password, userRow.password)
         if (match) {
             debug("Passwords Match!")
