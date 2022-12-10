@@ -115,6 +115,7 @@ DROP TABLE IF EXISTS `CourseWright`.`page` ;
 CREATE TABLE IF NOT EXISTS `CourseWright`.`page` (
   `id` VARCHAR(36) NOT NULL,
   `type` VARCHAR(50) NOT NULL,
+  `index` INT NOT NULL,
   `directory_id` VARCHAR(36) NOT NULL,
   PRIMARY KEY (`id`, `directory_id`),
   UNIQUE INDEX `id_UNIQUE` (`id` ASC) VISIBLE,

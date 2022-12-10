@@ -250,4 +250,36 @@ SELECT email, id, type, first_name as firstName, last_name as LastName FROM acco
 
 INSERT INTO account (email, id, first_name, last_name, type, temp_account) VALUES (?, ?, ?, ?, 'student', TRUE);
 
--- check to see if an account is in the  cf
+-- check to see if an account is already in the course
+SELECT * FROM enrollment WHERE account_id = ? and private_course_id = ?;
+
+-- check to see if account has permissions to view
+SELECT * FROM course_editor ce, course c where ce.course_id = ? and ce.course_id = c.id and ((c.published and c.visibility = 'public') or ce.account_id = ?);
+
+-- get all cells from a given page
+SELECT
+    p.id as id,
+    p.`index` as pageIndex,
+    p.directory_id as directoryId,
+    JSON_ARRAYAGG(
+        JSON_OBJECT(
+            'index', c.index,
+            'type', c.type,
+            'pageId', c.page_id,
+            'textType', t.text_type,
+            'text', t.text,
+            'preview', r.preview,
+            'fileId', r.file_id,
+            'title', v.title,
+            'description', v.description,
+            'videoType', v.video_type,
+            'src', v.src
+            )
+        )
+FROM page p
+INNER JOIN cell c on p.id = c.page_id
+LEFT JOIN text t on c.id = t.cell_id
+LEFT JOIN resource r on c.id = r.cell_id
+LEFT JOIN video v on c.id = v.cell_id
+WHERE p.id = ?
+GROUP BY p.id;

@@ -54,11 +54,14 @@ const handleCreateCourseSection = async (req, res) => {
 const handleEnrollment = async (req, res) => {
     const user = req.user.id
     const { account, pcId } = req.body
+    // verify that the use hasn't already been enrolled in the course
+    const inCourseQuery = "SELECT * FROM enrollment WHERE account_id = ? and private_course_id = ?;"
+    const inCourseParams = [account.id, pcId]
     try {
-    // verify that the user has the permissions to enroll in the course
-        if (!await hasPermissions(user, account.id, pcId, account.role)) {
-            return res.sendStatus(401)
-        }
+        if ((await poolConnection().execute(inCourseQuery, inCourseParams))[0].length > 0) return res.status(409).json( { message: "user already in database" })
+        // verify that the user has the permissions to enroll in the course
+        if (!await hasPermissions(user, account.id, pcId, account.role)) return res.sendStatus(401)
+        
         const accountId = account.id ? account.id : uuid()
         if (!account.id) {
             const createPseudoAccountQuery = "INSERT INTO account (email, id, first_name, last_name, type, temp_account) VALUES (?, ?, ?, ?, 'student', TRUE);"
